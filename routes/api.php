@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\RpgController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
@@ -19,3 +20,8 @@ use App\Http\Controllers\TestController;
 Route::get('/users',[TestController::class, 'getMethod']);
 
 Route::post('/users',[TestController::class, 'postMethod']);
+
+Route::post('/rpg',[RpgController::class, 'store'])->middleware('App\Http\Middleware\PhotoMiddleware');
+
+
+

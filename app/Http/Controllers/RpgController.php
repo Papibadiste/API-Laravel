@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\rpg;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use stdClass;
 
-class PhotoController extends Controller
+class RpgController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,11 +33,29 @@ class PhotoController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        echo "oui";
+        $validator  = Validator::make($request->all(), [
+            'title' => 'required',
+            'description' => 'required',
+            'src_img' => 'required',
+            'note' => 'required'
+        ]);
+
+        if($validator -> fails()){
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
+        Rpg::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'src_img' => $request->input('src_img'),
+            'note' => $request->input('note')
+        ]);
+        return response()->json(['reussite']);
     }
 
     /**
