@@ -19,6 +19,7 @@ class CreateRpgsTable extends Migration
             $table->text('description');
             $table->float('note');
             $table->string('src_img');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

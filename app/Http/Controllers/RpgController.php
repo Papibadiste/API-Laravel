@@ -16,7 +16,8 @@ class RpgController extends Controller
      */
     public function index()
     {
-        //
+        $photos = rpg::all();
+        return response() -> json($photos);
     }
 
     /**
