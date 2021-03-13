@@ -18,7 +18,8 @@ use App\Http\Controllers\TestController;
 |
 */
 
-Route::post('/connection',[ConnectionController::class, 'Register']);
+Route::post('/register',[ConnectionController::class, 'Register']);
+Route::post('/login',[ConnectionController::class, 'Connection']);
 
 
 
