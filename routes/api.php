@@ -20,6 +20,8 @@ use App\Http\Controllers\TestController;
 
 Route::post('/register',[ConnectionController::class, 'Register']);
 Route::post('/login',[ConnectionController::class, 'Connection']);
+Route::post('/newrpg',[RpgController::class, 'store']);
+Route::get('/listrpg',[RpgController::class, 'index']);
 
 
 

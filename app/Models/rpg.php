@@ -9,5 +9,5 @@ class rpg extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["title","description","src_img","note"];
+    protected $fillable = ["title","description","src_img","note","is_active"];
 }

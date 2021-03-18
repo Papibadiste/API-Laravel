@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Validation\NewRpgValidation;
 use App\Models\rpg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -36,27 +37,29 @@ class RpgController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, NewRpgValidation $validation)
     {
-        echo "oui";
-        $validator  = Validator::make($request->all(), [
-            'title' => 'required',
-            'description' => 'required',
-            'src_img' => 'required',
-            'note' => 'required'
-        ]);
+        $validator  = Validator::make($request->all(), $validation->rules() ,$validation->msg() );
 
-        if($validator -> fails()){
-            return response()->json(['errors' => $validator->errors()]);
+        if($validator->fails()){
+            return response()->json(['errors' => $validator->errors()], 401);
         }
 
-        Rpg::create([
+        $fullFileName = $request->file('src_img')->getClientOriginalName();
+        $fileName = pathinfo($fullFileName, PATHINFO_FILENAME);
+        $extension = $request->file('src_img')->getClientOriginalExtension();
+        $file = $fileName."_".time().".".$extension;
+
+        $request->file('src_img')->storeAs('public/pictures', $file);
+
+        $rpg = Rpg::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'src_img' => $request->input('src_img'),
-            'note' => $request->input('note')
+            'src_img' => $file,
+            'note' => $request->input('note'),
+            'is_active' => false
         ]);
-        return response()->json(['reussite']);
+        return response()->json([$rpg]);
     }
 
     /**
