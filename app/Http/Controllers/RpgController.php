@@ -17,19 +17,11 @@ class RpgController extends Controller
      */
     public function index()
     {
-        $photos = rpg::all();
-        return response() -> json($photos);
+
+        $Rpg = Rpg::where('is_active', true)->cursor();
+        return response() -> json($Rpg);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -62,16 +54,6 @@ class RpgController extends Controller
         return response()->json([$rpg]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -93,17 +75,27 @@ class RpgController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Rpg = Rpg::where('id', $id)->firstOrFail();
+
+        if($Rpg->is_active == true){
+
+            $Rpg->update(['is_active' => false]);
+
+        }elseif($Rpg->is_active == false){
+
+            $Rpg->update(['is_active' => true]);
+
+        }
+
+
+        echo $id;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function admin()
     {
-        //
+        $photos = rpg::all();
+        return response() -> json($photos);
     }
+
+
 }
